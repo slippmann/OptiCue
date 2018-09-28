@@ -15,10 +15,10 @@ cat << EOM > $C_TOOLCHAIN
 SET(CMAKE_SYSTEM_NAME Linux)
 SET(CMAKE_SYSTEM_VERSION 1)
 # Define the cross compiler locations
-SET(CMAKE_C_COMPILER   "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
-SET(CMAKE_CXX_COMPILER "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_C_COMPILER   "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_CXX_COMPILER "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
 # Define the sysroot path for the RaspberryPi distribution in our tools folder 
-SET(CMAKE_FIND_ROOT_PATH "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
+SET(CMAKE_FIND_ROOT_PATH "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
 # Use our definitions for compiler tools
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 # Search for libraries and headers in the target directories only
@@ -33,10 +33,10 @@ cat << EOM > $CPP_TOOLCHAIN
 SET(CMAKE_SYSTEM_NAME Linux)
 SET(CMAKE_SYSTEM_VERSION 1)
 # Define the cross compiler locations
-SET(CMAKE_C_COMPILER   "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
-SET(CMAKE_CXX_COMPILER "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_C_COMPILER   "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_CXX_COMPILER "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
 # Define the sysroot path for the RaspberryPi distribution in our tools folder 
-SET(CMAKE_FIND_ROOT_PATH "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
+SET(CMAKE_FIND_ROOT_PATH "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
 # Use our definitions for compiler tools
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 # Search for libraries and headers in the target directories only
@@ -74,5 +74,5 @@ if [ ! -d lib/ ]; then
 fi
 
 cd lib/
-cmake .. -DCMAKE_TOOLCHAIN_FILE="~/OptiCue/tools/toolchain-rpi.cmake"
+cmake .. -DCMAKE_TOOLCHAIN_FILE="$DIR/tools/toolchain-rpi.cmake"
 make

@@ -1,8 +1,8 @@
 cmake_minimum_required (VERSION 3.0)
 # Name our project
-project (blink)
+project (btn_mgr)
 # Create a variable that holds the path to our libwiringPi.so file
-set (WPI_PATH "~/OptiCue/wiringPi/wiringPi")
+set (WPI_PATH "../../wiringPi/wiringPi")
 # Add the local ‘include’ directory and the wiringPi directory to grab headers
 include_directories (include ${WPI_PATH})
 # Actually find the wiringPi library object
@@ -13,6 +13,6 @@ if(NOT WPI_LIB)
 endif()
 # Add all the *.c files in our source directory to our executable output
 FILE(GLOB SRC_FILES src/*.c)
-add_executable(blink ${SRC_FILES})
-# Link the pre-compiled wiringPi library to the executable we just declared 
-target_link_libraries(blink ${WPI_LIB})
+add_executable(btn_mgr ${SRC_FILES})
+# Link the pre-compiled wiringPi library to the executable we just declared
+target_link_libraries(btn_mgr ${WPI_LIB})
