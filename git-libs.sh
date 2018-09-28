@@ -28,5 +28,5 @@ if [ ! -d lib/ ]; then
 fi
 
 cd lib/
-cmake .. -DCMAKE_TOOLCHAIN_FILE="~/PiDev/tools/toolchain-rpi.cmake"
+cmake .. -DCMAKE_TOOLCHAIN_FILE="~/OptiCue/tools/toolchain-rpi.cmake"
 make

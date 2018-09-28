@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.0)
 # Name our project
 project (blink)
 # Create a variable that holds the path to our libwiringPi.so file
-set (WPI_PATH "~/PiDev/wiringPi/wiringPi/lib")
+set (WPI_PATH "~/OptiCue/wiringPi/wiringPi/lib")
 # Add the local ‘include’ directory and the wiringPi directory to grab headers
 include_directories (include ${WPI_PATH})
 # Actually find the wiringPi library object
