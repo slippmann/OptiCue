@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DIR=$(PWD)
+DIR=$(pwd)
 
 CMAKE_FILE="CMakeLists.txt"
 C_TOOLCHAIN="toolchain-rpi.cmake"
@@ -15,10 +15,10 @@ cat << EOM > $C_TOOLCHAIN
 SET(CMAKE_SYSTEM_NAME Linux)
 SET(CMAKE_SYSTEM_VERSION 1)
 # Define the cross compiler locations
-SET(CMAKE_C_COMPILER   "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
-SET(CMAKE_CXX_COMPILER "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_C_COMPILER   "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_CXX_COMPILER "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
 # Define the sysroot path for the RaspberryPi distribution in our tools folder 
-SET(CMAKE_FIND_ROOT_PATH "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
+SET(CMAKE_FIND_ROOT_PATH "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
 # Use our definitions for compiler tools
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 # Search for libraries and headers in the target directories only
@@ -33,10 +33,10 @@ cat << EOM > $CPP_TOOLCHAIN
 SET(CMAKE_SYSTEM_NAME Linux)
 SET(CMAKE_SYSTEM_VERSION 1)
 # Define the cross compiler locations
-SET(CMAKE_C_COMPILER   "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
-SET(CMAKE_CXX_COMPILER "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_C_COMPILER   "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_CXX_COMPILER "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
 # Define the sysroot path for the RaspberryPi distribution in our tools folder 
-SET(CMAKE_FIND_ROOT_PATH "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
+SET(CMAKE_FIND_ROOT_PATH "$DIR/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
 # Use our definitions for compiler tools
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 # Search for libraries and headers in the target directories only
@@ -60,12 +60,12 @@ find_package(Threads REQUIRED)
 # add all the *.c files as sources
 FILE(GLOB SRC_FILES *.c)
 # make this output a shared library (with .so output)
-add_library (wiringPi SHARED ${SRC_FILES})
+add_library (wiringPi SHARED \${SRC_FILES})
 # be sure to include the current source directory for header files
-target_include_directories (wiringPi PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories (wiringPi PUBLIC \${CMAKE_CURRENT_SOURCE_DIR})
 # add the following required libraries:
 # Threads, Math, Crypt, and RealTime
-target_link_libraries(wiringPi ${CMAKE_THREAD_LIBS_INIT} crypt m rt)
+target_link_libraries(wiringPi \${CMAKE_THREAD_LIBS_INIT} crypt m rt)
 
 EOM
 
