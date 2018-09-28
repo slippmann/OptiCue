@@ -2,11 +2,15 @@
 
 DIR=$(pwd)
 
-CMAKE_FILE="CMakeLists.txt"
-C_TOOLCHAIN="toolchain-rpi.cmake"
-CPP_TOOLCHAIN="toolchain-rpi-cpp.cmake"
+#=====================================================================================
+#	RASPBERRY PI TOOLS
+#=====================================================================================
 
 git clone https://github.com/raspberrypi/tools
+
+# Create CMAKE toolchain files
+C_TOOLCHAIN="toolchain-rpi.cmake"
+CPP_TOOLCHAIN="toolchain-rpi-cpp.cmake"
 
 cd tools/
 
@@ -17,7 +21,7 @@ SET(CMAKE_SYSTEM_VERSION 1)
 # Define the cross compiler locations
 SET(CMAKE_C_COMPILER   "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
 SET(CMAKE_CXX_COMPILER "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
-# Define the sysroot path for the RaspberryPi distribution in our tools folder 
+# Define the sysroot path for the RaspberryPi distribution in our tools folder
 SET(CMAKE_FIND_ROOT_PATH "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
 # Use our definitions for compiler tools
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
@@ -35,7 +39,7 @@ SET(CMAKE_SYSTEM_VERSION 1)
 # Define the cross compiler locations
 SET(CMAKE_C_COMPILER   "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
 SET(CMAKE_CXX_COMPILER "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
-# Define the sysroot path for the RaspberryPi distribution in our tools folder 
+# Define the sysroot path for the RaspberryPi distribution in our tools folder
 SET(CMAKE_FIND_ROOT_PATH "${DIR}/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
 # Use our definitions for compiler tools
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
@@ -48,9 +52,16 @@ EOM
 
 cd ..
 
+#=====================================================================================
+#       WIRING PI LIBRARY
+#=====================================================================================
+
 git clone git://git.drogon.net/wiringPi
 
 cd wiringPi/wiringPi
+
+# Create CMAKE lists file for wiringPi library
+CMAKE_FILE="CMakeLists.txt"
 
 cat << EOM > $CMAKE_FILE
 cmake_minimum_required(VERSION 3.0)
@@ -68,6 +79,8 @@ target_include_directories (wiringPi PUBLIC \${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(wiringPi \${CMAKE_THREAD_LIBS_INIT} crypt m rt)
 
 EOM
+
+# Compile wiringPi library
 
 if [ ! -d lib/ ]; then
 	mkdir lib/
