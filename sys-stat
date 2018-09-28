@@ -1,0 +1,9 @@
+#!/bin/bash
+
+freq=$(</sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq)
+cpu=$(</sys/class/thermal/thermal_zone0/temp)
+gpu=$(/opt/vc/bin/vcgencmd measure_temp)
+
+echo "CPU Speed	CPU Temp	GPU Temp"
+echo "$((freq/1000))MHz		$((cpu/1000))'C		${gpu:5}"
+
