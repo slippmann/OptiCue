@@ -1,5 +1,7 @@
 #!/bin/sh
 
+DIR=$(PWD)
+
 CMAKE_FILE="CMakeLists.txt"
 C_TOOLCHAIN="toolchain-rpi.cmake"
 CPP_TOOLCHAIN="toolchain-rpi-cpp.cmake"
@@ -13,10 +15,10 @@ cat << EOM > $C_TOOLCHAIN
 SET(CMAKE_SYSTEM_NAME Linux)
 SET(CMAKE_SYSTEM_VERSION 1)
 # Define the cross compiler locations
-SET(CMAKE_C_COMPILER   "~/OptiCue/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
-SET(CMAKE_CXX_COMPILER "~/OptiCue/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_C_COMPILER   "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_CXX_COMPILER "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
 # Define the sysroot path for the RaspberryPi distribution in our tools folder 
-SET(CMAKE_FIND_ROOT_PATH "~/OptiCue/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
+SET(CMAKE_FIND_ROOT_PATH "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
 # Use our definitions for compiler tools
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 # Search for libraries and headers in the target directories only
@@ -31,10 +33,10 @@ cat << EOM > $CPP_TOOLCHAIN
 SET(CMAKE_SYSTEM_NAME Linux)
 SET(CMAKE_SYSTEM_VERSION 1)
 # Define the cross compiler locations
-SET(CMAKE_C_COMPILER   "~/OptiCue/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
-SET(CMAKE_CXX_COMPILER "~/OptiCue/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_C_COMPILER   "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
+SET(CMAKE_CXX_COMPILER "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/bin/arm-linux-gnueabihf-gcc")
 # Define the sysroot path for the RaspberryPi distribution in our tools folder 
-SET(CMAKE_FIND_ROOT_PATH "~/OptiCue/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
+SET(CMAKE_FIND_ROOT_PATH "$(DIR)/tools/arm-bcm2708/arm-rpi-4.9.3-linux-gnueabihf/arm-linux-gnueabihf/sysroot/")
 # Use our definitions for compiler tools
 SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 # Search for libraries and headers in the target directories only
