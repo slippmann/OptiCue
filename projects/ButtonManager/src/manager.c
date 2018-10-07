@@ -1,10 +1,13 @@
 #include "global.h"
 #include "power.h"
-#include "volume.h"
+//#include "volume.h"
 
 int main (void)
 {
-        wiringPiSetupGPIO();
+#ifdef DEBUG
+	piPrint("Starting...");
+#endif
+	wiringPiSetupGpio();
 
 	PowerSetup();
 	//VolumeSetup();

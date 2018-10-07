@@ -1,10 +1,4 @@
-#include <stdbool.h>
-#include <stdlib.h>
-
-#ifdef DEBUG
-#include <stdio.h>
-#endif
-
+#include "gpio.h"
 #include "power.h"
 
 static bool isSleeping = false;
@@ -12,7 +6,7 @@ static bool isSleeping = false;
 void powerOff(void)
 {
 #ifdef DEBUG
-        printf("PowerOff");
+        piPrint("PowerOff");
 #else
 	system("sudo shutdown -h now");
 #endif
@@ -23,7 +17,7 @@ void sleep(void)
 	if(isSleeping)
 	{
 #ifdef DEBUG
-                printf("Wake");
+                piPrint("Wake");
 #else
                 system("sudo python opticue.py");
 #endif
@@ -31,7 +25,7 @@ void sleep(void)
 	else
 	{
 #ifdef DEBUG
-		printf("Sleep");
+		piPrint("Sleep");
 #else
 		system("sudo killall python");
 #endif
@@ -44,6 +38,9 @@ void handlePowerInterrupt(void)
 	bool isLongPress = false;
 
 	int msec = 0;
+
+	if(Debounce(POWER_PIN) == false)
+		return; // Ignore
 
 	while(digitalRead(POWER_PIN) == LOW)
 	{
