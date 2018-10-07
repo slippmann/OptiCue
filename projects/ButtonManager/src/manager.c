@@ -7,7 +7,7 @@ int main (void)
         wiringPiSetupGPIO();
 
 	PowerSetup();
-	VolumeSetup();
+	//VolumeSetup();
 
 	// loop forever
 	for(;;)
