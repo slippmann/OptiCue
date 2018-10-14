@@ -5,5 +5,6 @@
 #include "global.h"
 
 void PowerSetup(void);
+void PowerCleanup(void);
 
 #endif /* POWER_H */

@@ -3,13 +3,26 @@
 
 static bool isSleeping = false;
 
+void updateStateLED(void)
+{
+	if (isSleeping)
+	{
+		digitalWrite(ACTIVE_PIN, LOW);
+		digitalWrite(STANDBY_PIN, HIGH);
+	}
+	else
+	{
+		digitalWrite(STANDBY_PIN, LOW);
+		digitalWrite(ACTIVE_PIN, HIGH);
+	}
+}
+
 void powerOff(void)
 {
 #ifdef DEBUG
         piPrint("PowerOff");
-#else
-	system("sudo shutdown -h now");
 #endif
+	system("sudo shutdown -h now");
 }
 
 void sleep(void)
@@ -18,18 +31,22 @@ void sleep(void)
 	{
 #ifdef DEBUG
                 piPrint("Wake");
-#else
-                system("sudo python opticue.py");
 #endif
+                system("sudo python opticue.py &");
+
+		isSleeping = false;
 	}
 	else
 	{
 #ifdef DEBUG
 		piPrint("Sleep");
-#else
-		system("sudo killall python");
 #endif
+		system("sudo killall -s SIGINT python");
+
+		isSleeping = true;
 	}
+
+	updateStateLED();
 }
 
 void handlePowerInterrupt(void)
@@ -66,8 +83,22 @@ void handlePowerInterrupt(void)
 
 void PowerSetup(void)
 {
+	pinMode(STANDBY_PIN, OUTPUT);
+	pinMode(ACTIVE_PIN, OUTPUT);
+
 	pinMode(POWER_PIN, INPUT); // Set pin as an input
 	pullUpDnControl(POWER_PIN, PUD_UP); // Apply a 50K pullup resistor
 
 	wiringPiISR(POWER_PIN, INT_EDGE_FALLING,  handlePowerInterrupt); // Configure ISR
+}
+
+void PowerCleanup(void)
+{
+	pinMode(STANDBY_PIN, INPUT);
+        pinMode(ACTIVE_PIN, INPUT);
+
+	pinMode(POWER_PIN, INPUT); // Return pin to input mode
+	pullUpDnControl(POWER_PIN, PUD_OFF); // Remove pullup
+
+	wiringPiISR(POWER_PIN, INT_EDGE_SETUP, NULL); // Remove interrupt
 }

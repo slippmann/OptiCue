@@ -3,7 +3,7 @@
 
 #include "global.h"
 
-#define BOUNCE_DUR_MSEC 200
+#define BOUNCE_DUR_MSEC 100
 
 bool Debounce(int pin);
 

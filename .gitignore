@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# Cmake and make files
+*.make
+*.cmake
+build/
+
+# Tools etc.
+tools/
+wiringPi/
