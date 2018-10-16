@@ -32,7 +32,7 @@ void sleep(void)
 #ifdef DEBUG
                 piPrint("Wake");
 #endif
-                system("sudo python opticue.py &");
+                system("sudo python3 opticue.py &");
 
 		isSleeping = false;
 	}
@@ -41,7 +41,7 @@ void sleep(void)
 #ifdef DEBUG
 		piPrint("Sleep");
 #endif
-		system("sudo killall -s SIGINT python");
+		system("sudo killall -s SIGINT python3 &");
 
 		isSleeping = true;
 	}
