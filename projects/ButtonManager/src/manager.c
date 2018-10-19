@@ -17,6 +17,18 @@ void intHandler(int param)
 	isRunning = false;
 }
 
+void StartApp(void)
+{
+#ifdef DEBUG
+	piPrint("Running Opticue...");
+#endif
+	system(START_APP_CMD);
+
+#ifdef DEBUG
+	piPrint("Opticue Started");
+#endif
+}
+
 int main (int argc, char *argv[])
 {
 #ifdef DEBUG
@@ -26,6 +38,8 @@ int main (int argc, char *argv[])
 	signal(SIGINT, intHandler);
 	signal(SIGTERM, intHandler);
 	signal(SIGKILL, intHandler);
+
+	StartApp();
 
 	// Initialize GPIOs
 	wiringPiSetupGpio();

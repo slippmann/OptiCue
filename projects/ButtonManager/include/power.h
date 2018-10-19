@@ -2,6 +2,7 @@
 #define POWER_H
 
 #include <wiringPi.h>
+#include <pthread.h>
 #include "global.h"
 
 void PowerSetup(void);

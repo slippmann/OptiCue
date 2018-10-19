@@ -6,6 +6,7 @@
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define DEBUG
 
@@ -17,6 +18,9 @@
 
 #define VOLUME_UP_PIN		(1)
 #define VOLUME_DOWN_PIN		(2)
+
+#define START_APP_CMD 		"sudo python3 opticue.py &"
+#define KILL_APP_CMD		"sudo killall -s SIGINT python3 &"
 
 static void piPrint(const char * format, ...)
 {

@@ -1,7 +1,12 @@
 #include "gpio.h"
+#include "proc.h"
 #include "power.h"
 
-static bool isSleeping = false;
+static pthread_t loopThread;
+static pthread_mutex_t lock;
+
+static volatile bool isSleeping = true;
+static volatile bool isInterrupted = false;
 
 void updateStateLED(void)
 {
@@ -25,28 +30,42 @@ void powerOff(void)
 	system("sudo shutdown -h now");
 }
 
-void sleep(void)
+void toggleSleep(void)
 {
+	pthread_mutex_lock(&lock);
+
 	if(isSleeping)
 	{
 #ifdef DEBUG
                 piPrint("Wake");
 #endif
-                system("sudo python3 opticue.py &");
-
-		isSleeping = false;
+                system(START_APP_CMD);
 	}
 	else
 	{
 #ifdef DEBUG
 		piPrint("Sleep");
 #endif
-		system("sudo killall -s SIGINT python3 &");
-
-		isSleeping = true;
+		system(KILL_APP_CMD);
 	}
 
-	updateStateLED();
+	pthread_mutex_unlock(&lock);
+}
+
+void checkAppStatus(void)
+{
+	bool isFound = (FindProcess("python3") != 0);
+
+	if(isFound == isSleeping)
+	{
+		pthread_mutex_lock(&lock);
+		isSleeping = !isSleeping;
+		pthread_mutex_unlock(&lock);
+
+		updateStateLED();
+	}
+
+	return;
 }
 
 void handlePowerInterrupt(void)
@@ -77,8 +96,19 @@ void handlePowerInterrupt(void)
 	}
 	else
 	{
-		sleep();
+		toggleSleep();
 	}
+}
+
+void * powerLoop(void * param)
+{
+	while(!isInterrupted)
+	{
+		delay(1000);
+		checkAppStatus();
+	}
+
+	return NULL;
 }
 
 void PowerSetup(void)
@@ -90,10 +120,14 @@ void PowerSetup(void)
 	pullUpDnControl(POWER_PIN, PUD_UP); // Apply a 50K pullup resistor
 
 	wiringPiISR(POWER_PIN, INT_EDGE_FALLING,  handlePowerInterrupt); // Configure ISR
+
+	pthread_create(&loopThread, NULL, powerLoop, NULL);
 }
 
 void PowerCleanup(void)
 {
+	isInterrupted = true;
+
 	pinMode(STANDBY_PIN, INPUT);
         pinMode(ACTIVE_PIN, INPUT);
 
@@ -101,4 +135,6 @@ void PowerCleanup(void)
 	pullUpDnControl(POWER_PIN, PUD_OFF); // Remove pullup
 
 	wiringPiISR(POWER_PIN, INT_EDGE_SETUP, NULL); // Remove interrupt
+
+	pthread_join(loopThread, NULL);
 }
