@@ -19,6 +19,11 @@
 #define VOLUME_UP_PIN		(1)
 #define VOLUME_DOWN_PIN		(2)
 
+#define BATTERY_STATUS_PIN	(5)
+#define BATTERY_LOW_PIN		(6)
+#define CHARGING_PIN		(7)
+#define LOW_BATTERY_PIN		(8)
+
 #define START_APP_CMD 		"sudo python3 opticue.py &"
 #define KILL_APP_CMD		"sudo killall -s SIGINT python3 &"
 

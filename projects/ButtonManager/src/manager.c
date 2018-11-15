@@ -2,7 +2,8 @@
 
 #include "global.h"
 #include "power.h"
-//#include "volume.h"
+#include "volume.h"
+#include "battery.h"
 
 static volatile bool isRunning = true;
 
@@ -45,7 +46,8 @@ int main (int argc, char *argv[])
 	wiringPiSetupGpio();
 
 	PowerSetup();
-	//VolumeSetup();
+	VolumeSetup();
+	BatterySetup();
 
 	// loop until killed
 	while(isRunning)
