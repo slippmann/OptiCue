@@ -4,6 +4,7 @@
 #include "power.h"
 #include "volume.h"
 #include "battery.h"
+#include "syswrap.h"
 
 static volatile bool isRunning = true;
 
@@ -13,7 +14,8 @@ void intHandler(int param)
 	piPrint("Cleaning up...");
 #endif
 	PowerCleanup();
-	//VolumeCleanup();
+	VolumeCleanup();
+	BatteryCleanup();
 
 	isRunning = false;
 }
@@ -23,7 +25,7 @@ void StartApp(void)
 #ifdef DEBUG
 	piPrint("Running Opticue...");
 #endif
-	system(START_APP_CMD);
+	systemRun(START_APP_CMD);
 
 #ifdef DEBUG
 	piPrint("Opticue Started");

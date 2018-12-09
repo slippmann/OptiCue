@@ -3,5 +3,5 @@ if [ ! -d build/ ]; then
 fi
 
 cd build/
-cmake .. -DCMAKE_TOOLCHAIN_FILE="../../tools/toolchain-rpi-cpp.cmake"
+cmake .. -DCMAKE_TOOLCHAIN_FILE="../../tools/toolchain-rpi-linaro.cmake"
 make

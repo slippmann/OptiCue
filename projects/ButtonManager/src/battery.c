@@ -11,11 +11,11 @@ void updateChargingLED(bool isCharging)
 #endif
 	if (isCharging)
 	{
-		digitalWrite(BATTERY_STATUS_PIN, HIGH);
+		digitalWrite(CHARGING_LED_PIN, HIGH);
 	}
 	else
 	{
-		digitalWrite(BATTERY_STATUS_PIN, LOW);
+		digitalWrite(CHARGING_LED_PIN, LOW);
 	}
 }
 
@@ -29,18 +29,21 @@ void updateLowLED(bool isLow)
 #endif
 	if (isLow)
 	{
-		digitalWrite(BATTERY_LOW_PIN, HIGH);
+		digitalWrite(LOW_BATTERY_LED_PIN, HIGH);
 	}
 	else
 	{
-		digitalWrite(BATTERY_LOW_PIN, LOW);
+		digitalWrite(LOW_BATTERY_LED_PIN, LOW);
 	}
 }
 
 void handleBatteryInterrupt(void)
 {
+	delay(500);
+
 	bool isCharging = digitalRead(BATTERY_STATUS_PIN);
-	bool isLow = digitalRead(BATTERY_LOW_PIN);
+	//bool isLow = digitalRead(BATTERY_LOW_PIN);
+	bool isLow = false; //TODO: Implement Low Battery Detection
 
 	updateChargingLED(isCharging);
 	updateLowLED(isLow);
@@ -48,8 +51,12 @@ void handleBatteryInterrupt(void)
 
 void BatterySetup(void)
 {
-	pinMode(CHARGING_PIN, OUTPUT);
-	pinMode(LOW_BATTERY_PIN, OUTPUT);
+#ifdef DEBUG
+        piPrint("Setting Up Battery Manager...");
+#endif
+
+	pinMode(CHARGING_LED_PIN, OUTPUT);
+	pinMode(LOW_BATTERY_LED_PIN, OUTPUT);
 
 	pinMode(BATTERY_STATUS_PIN, INPUT); // Set pin as an input
 	pinMode(BATTERY_LOW_PIN, INPUT); // Set pin as an input
@@ -58,12 +65,23 @@ void BatterySetup(void)
 
 	wiringPiISR(BATTERY_STATUS_PIN, INT_EDGE_BOTH,  handleBatteryInterrupt); // Configure ISR
 	wiringPiISR(BATTERY_LOW_PIN, INT_EDGE_BOTH,  handleBatteryInterrupt); // Configure ISR
+
+	digitalWrite(CHARGING_LED_PIN, LOW);
+	digitalWrite(LOW_BATTERY_LED_PIN, LOW);
+
+#ifdef DEBUG
+        piPrint("Battery Manager Setup Complete");
+#endif
 }
 
-void batteryCleanup(void)
+void BatteryCleanup(void)
 {
-	pinMode(CHARGING_PIN, INPUT);
-        pinMode(LOW_BATTERY_PIN, INPUT);
+#ifdef DEBUG
+        piPrint("Cleaning Up Battery Manager...");
+#endif
+
+	pinMode(CHARGING_LED_PIN, INPUT);
+        pinMode(LOW_BATTERY_LED_PIN, INPUT);
 
 	pinMode(BATTERY_STATUS_PIN, INPUT); // Return pin to input mode
 	pinMode(BATTERY_LOW_PIN, INPUT); // Return pin to input mode
@@ -72,4 +90,8 @@ void batteryCleanup(void)
 
 	wiringPiISR(BATTERY_STATUS_PIN, INT_EDGE_SETUP, NULL); // Remove interrupt
 	wiringPiISR(BATTERY_LOW_PIN, INT_EDGE_SETUP, NULL); // Remove interrupt
+
+#ifdef DEBUG
+        piPrint("Battery Manager Clean Up Complete");
+#endif
 }
