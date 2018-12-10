@@ -61,6 +61,8 @@ void adjustVolume(enum Volume dir)
 
 	snprintf(command, 25, "sudo amixer set PCM %d%% &", currentVolume);
 	systemRun(command);
+
+	writeVol();
 }
 
 void handleVolumeInterrupt(void)

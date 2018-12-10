@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define DEBUG
+//#define DEBUG
 
 #define LONG_PRESS_DUR_MSEC 	(3000)
 
@@ -16,15 +16,16 @@
 #define STANDBY_LED_PIN		(17)
 #define ACTIVE_LED_PIN		(18)
 
-#define VOLUME_UP_PIN		(27)
-#define VOLUME_DOWN_PIN		(22)
+#define VOLUME_UP_PIN		(4)
+#define VOLUME_DOWN_PIN		(14)
 
 #define VOL_FILE		"/usr/local/.OpticueVol"
 
-#define BATTERY_STATUS_PIN	(23)
-#define BATTERY_LOW_PIN		(24)
-#define CHARGING_LED_PIN	(5)
-#define LOW_BATTERY_LED_PIN	(6)
+#define BATTERY_STATUS_PIN	(27)
+#define CHARGING_LED_PIN        (15)
+
+#define BATTERY_LOW_PIN		(22)
+#define LOW_BATTERY_LED_PIN	(23)
 
 #define PYTHON_VERSION		"python"
 #define START_APP_CMD 		"sudo "PYTHON_VERSION" opticue.py &"

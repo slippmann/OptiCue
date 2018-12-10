@@ -60,8 +60,8 @@ void BatterySetup(void)
 
 	pinMode(BATTERY_STATUS_PIN, INPUT); // Set pin as an input
 	pinMode(BATTERY_LOW_PIN, INPUT); // Set pin as an input
-	pullUpDnControl(BATTERY_STATUS_PIN, PUD_UP); // Apply a 50K pullup resistor
-	pullUpDnControl(BATTERY_LOW_PIN, PUD_UP); // Apply a 50K pullup resistor
+	pullUpDnControl(BATTERY_STATUS_PIN, PUD_DOWN); // Apply a 50K pullup resistor
+	pullUpDnControl(BATTERY_LOW_PIN, PUD_DOWN); // Apply a 50K pullup resistor
 
 	wiringPiISR(BATTERY_STATUS_PIN, INT_EDGE_BOTH,  handleBatteryInterrupt); // Configure ISR
 	wiringPiISR(BATTERY_LOW_PIN, INT_EDGE_BOTH,  handleBatteryInterrupt); // Configure ISR
